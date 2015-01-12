@@ -1,0 +1,54 @@
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-release" }
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'war'
+
+uploadArchives {
+	repositories.mavenDeployer {
+		repository (url: "file:///home/hariram/Personal/github/maven-repo-release")
+		pom.version = '0.1'
+		pom.artifactId = 'spring4helloworld'
+		pom.groupId = 'com.hariram'
+	}
+}
+
+war {
+    baseName = 'spring4helloworld'
+    version =  '0.1'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile("log4j:log4j:1.2.17")
+    compile("junit:junit:4.4")
+    compile("org.springframework:spring-core:4.0.1.RELEASE")
+    compile("org.springframework:spring-web:4.0.1.RELEASE")
+    compile("org.springframework:spring-webmvc:4.0.1.RELEASE")
+    compile("org.springframework:spring-webmvc:4.0.1.RELEASE")
+    compile("javax.servlet:javax.servlet-api:3.0.1")
+    compile("jstl:jstl:1.2")
+    
+    //providedRuntime "org.apache.tomcat.embed:tomcat-embed-jasper"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.12'
+}
+
+task generateJavadoc(type: Javadoc) {
+	source = sourceSets.main.allJava
+	destinationDir = reporting.file("spring4helloworld")
+}
